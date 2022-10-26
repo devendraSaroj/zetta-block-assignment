@@ -1,0 +1,21 @@
+.table-container {
+  background-color: var(--white);
+  width: 100%;
+  border: 2px solid var(--gray-1);
+  border-collapse: collapse;
+}
+
+.table-container tr th,
+.table-container tr td {
+  padding: 16px 16px 16px 0;
+}
+
+.table-container tr th:first-child,
+.table-container tr td:first-child {
+  padding-left: 16px;
+}
+
+.table-container tr th:last-child,
+.table-container tr td:last-child {
+  padding-right: 16px;
+}

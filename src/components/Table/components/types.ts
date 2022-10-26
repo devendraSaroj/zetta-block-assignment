@@ -1,4 +1,4 @@
-export type TableRow = {
+export type TableRowType = {
   createdAt: string;
   name: string;
   updatedAt: string;

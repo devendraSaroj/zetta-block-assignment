@@ -1,10 +1,10 @@
 import React from "react";
 import "./TBodyRow.style.css";
-import { TableRow } from "../types";
+import { TableRowType } from "../types";
 
 type Props = {
   orderedDataFieldList: Array<string>;
-  data: TableRow;
+  data: TableRowType;
 };
 
 const TBodyRow = (props: Props) => {

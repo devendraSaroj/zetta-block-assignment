@@ -3,16 +3,16 @@ import "./TBodyRow.style.css";
 import { TableRowType } from "../types";
 
 type Props = {
-  orderedDataFieldList: Array<string>;
-  data: TableRowType;
+  columns: Array<{ dataField: string }>;
+  rowData: TableRowType;
 };
 
 const TBodyRow = (props: Props) => {
   return (
     <tr className="table-body-row">
-      {props.orderedDataFieldList.map((dataField) => {
-        const cellData = props.data[dataField];
-        return <td>{cellData}</td>;
+      {props.columns.map(({ dataField }, index) => {
+        const cellData = props.rowData[dataField];
+        return <td key={index}>{cellData}</td>;
       })}
     </tr>
   );

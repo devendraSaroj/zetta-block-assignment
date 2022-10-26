@@ -3,10 +3,9 @@ import "./THeadRow.style.css";
 import arrowIcon from "../../../../assets/arrow.svg";
 
 export type TableHeaderProps = {
-  headers: Array<{
-    id: number;
+  columns: Array<{
     dataField: string;
-    name: string;
+    text: string;
     sort?: boolean;
     ascending?: boolean;
   }>;
@@ -15,9 +14,9 @@ export type TableHeaderProps = {
 const THeader = (props: TableHeaderProps) => {
   return (
     <tr className="table-header-row">
-      {props.headers.map((thItem) => (
-        <th>
-          {thItem.name}
+      {props.columns.map((thItem, index) => (
+        <th key={index}>
+          {thItem.text}
           {thItem.sort && (
             <div>
               <img

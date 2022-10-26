@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import LoaderWrapper from "../../components/LoaderWrapper/LoaderWrapper";
 import { TableRowType } from "../../components/Table/components/types";
 import Table, { TableProps } from "../../components/Table/Table";
 import { useAppDispatch, useAppSelector } from "../../hooks/store-hooks";
@@ -13,14 +14,20 @@ const Home = (props: Props) => {
   const dispatch = useAppDispatch();
   const apiList = useAppSelector((state) => state.apis.data);
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     (async () => {
+      setLoading(true);
       await dispatch(fetchAPIList());
+      setLoading(false);
     })();
   }, []);
 
   const handleUpdateDescription = async (updatedObject: TableRowType) => {
+    setLoading(true);
     await dispatch(updateApiDetail(updatedObject));
+    setLoading(false);
   };
 
   const columns: TableProps["columns"] = [
@@ -32,14 +39,15 @@ const Home = (props: Props) => {
     { dataField: "updatedAt", text: "Updated at" },
   ];
 
+  console.log({ loading });
   return (
-    <div>
+    <LoaderWrapper loading={loading}>
       <Table
         data={Object.values(apiList)}
         columns={columns}
         onUpdateDescription={handleUpdateDescription}
       />
-    </div>
+    </LoaderWrapper>
   );
 };
 

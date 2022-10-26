@@ -7,6 +7,7 @@ import "./Table.css";
 export type TableProps = {
   data: Array<TableRowType>;
   columns: Array<{ dataField: string; text: string; sort?: boolean }>;
+  onUpdateDescription: (updatedObject: TableRowType) => void;
 };
 
 const Table = (props: TableProps) => {
@@ -21,6 +22,7 @@ const Table = (props: TableProps) => {
             key={rowData.id}
             columns={props.columns}
             rowData={rowData}
+            onUpdateDescription={props.onUpdateDescription}
           />
         ))}
       </tbody>

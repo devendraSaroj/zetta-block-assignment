@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
+import { TableRowType } from "../../components/Table/components/types";
 import Table, { TableProps } from "../../components/Table/Table";
 import { useAppDispatch, useAppSelector } from "../../hooks/store-hooks";
-import { fetchAPIList } from "../../store/actions/tableActions";
+import {
+  fetchAPIList,
+  updateApiDetail,
+} from "../../store/actions/tableActions";
 
 type Props = {};
 
@@ -15,6 +19,10 @@ const Home = (props: Props) => {
     })();
   }, []);
 
+  const handleUpdateDescription = async (updatedObject: TableRowType) => {
+    await dispatch(updateApiDetail(updatedObject));
+  };
+
   const columns: TableProps["columns"] = [
     { dataField: "id", text: "Id" },
     { dataField: "name", text: "Name", sort: true },
@@ -26,7 +34,11 @@ const Home = (props: Props) => {
 
   return (
     <div>
-      <Table data={apiList} columns={columns} />
+      <Table
+        data={Object.values(apiList)}
+        columns={columns}
+        onUpdateDescription={handleUpdateDescription}
+      />
     </div>
   );
 };

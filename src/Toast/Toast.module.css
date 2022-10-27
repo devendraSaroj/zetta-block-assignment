@@ -1,0 +1,14 @@
+.container {
+  height: 80px;
+  min-width: 200px;
+  max-width: 300px;
+  background-color: rgb(150, 81, 200);
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 5px 10px;
+  border-radius: var(--border-radius-5);
+  font-size: 1rem;
+  color: var(--white);
+  z-index: var(--zindex-alert);
+}

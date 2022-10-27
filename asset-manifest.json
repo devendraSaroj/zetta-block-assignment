@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/zetta-block-assignment/static/css/main.7eb90cd6.css",
+    "main.js": "/zetta-block-assignment/static/js/main.0a0bd0e4.js",
+    "static/media/delete.svg": "/zetta-block-assignment/static/media/delete.5baaf4b101566ed02a46549f57933bc8.svg",
+    "index.html": "/zetta-block-assignment/index.html",
+    "static/media/search.svg": "/zetta-block-assignment/static/media/search.c1a298ef2e862216a261460df57454ca.svg",
+    "static/media/undo.svg": "/zetta-block-assignment/static/media/undo.c371b4308c9082a898e53a1173b26fbb.svg",
+    "static/media/redo.svg": "/zetta-block-assignment/static/media/redo.a21a582bfc46389cc36c6770e2a2c586.svg",
+    "static/media/arrow.svg": "/zetta-block-assignment/static/media/arrow.493d8b37ca35a08a6a9ee6ed60731110.svg",
+    "main.7eb90cd6.css.map": "/zetta-block-assignment/static/css/main.7eb90cd6.css.map",
+    "main.0a0bd0e4.js.map": "/zetta-block-assignment/static/js/main.0a0bd0e4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7eb90cd6.css",
+    "static/js/main.0a0bd0e4.js"
+  ]
+}

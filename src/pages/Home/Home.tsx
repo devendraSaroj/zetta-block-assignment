@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/store-hooks";
 import {
   deleteApiEntry,
   fetchAPIList,
+  redoDelete,
+  undoDelete,
   updateApiDetail,
 } from "../../store/actions/tableActions";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
@@ -20,6 +22,8 @@ const Home = (props: Props) => {
   const apiList = useAppSelector((state) => state.apis.data);
   const uniqueTypeList = useAppSelector((state) => state.apis.uniqueTypeList);
   const totalRecords = useAppSelector((state) => state.apis.totalRecords);
+  const history = useAppSelector((state) => state.apis.history);
+  const redoList = useAppSelector((state) => state.apis.redoList);
 
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [typeFilterKeyword, setTypeFilterKeyword] = useState<string>("All");
@@ -30,7 +34,12 @@ const Home = (props: Props) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
+      // to get the whole record count
       await dispatch(fetchAPIList({ sortBy: "name", order: "asc" }));
+      // to paginate
+      await dispatch(
+        fetchAPIList({ sortBy: "name", order: "asc", page: 1, limit: 10 })
+      );
       setLoading(false);
     })();
   }, []);
@@ -44,7 +53,7 @@ const Home = (props: Props) => {
   const handleSort = async (dataField: string, order: "asc" | "desc") => {
     setLoading(true);
     const response = await dispatch(
-      fetchAPIList({ sortBy: dataField, order, page })
+      fetchAPIList({ sortBy: dataField, order, page, limit: 10 })
     );
     setLoading(false);
     if (response.payload) setSortOrder(order);
@@ -62,6 +71,7 @@ const Home = (props: Props) => {
         search: search,
         filters,
         page,
+        limit: 10,
       })
     );
     setLoading(false);
@@ -79,13 +89,28 @@ const Home = (props: Props) => {
       fetchAPIList({
         sortBy: "name",
         order: sortOrder,
-        search: searchKeyword,
-        filters: { type: typeFilterKeyword },
+        search: searchKeyword === "" ? undefined : searchKeyword,
+        filters: {
+          type: typeFilterKeyword === "All" ? undefined : typeFilterKeyword,
+        },
         page,
+        limit: 10,
       })
     );
     setLoading(false);
     if (response.payload) setPage(page);
+  };
+
+  const handleUndo = async () => {
+    setLoading(true);
+    dispatch(undoDelete());
+    setLoading(false);
+  };
+
+  const handleRedo = () => {
+    setLoading(true);
+    dispatch(redoDelete());
+    setLoading(false);
   };
 
   const handleActionFormatter = (id: string) => {
@@ -98,6 +123,7 @@ const Home = (props: Props) => {
             handleDeleteRow(id);
             event.stopPropagation();
           }}
+          title="Delete this entry"
         >
           <DeleteIcon stroke="var(--white)" />
         </button>
@@ -106,7 +132,7 @@ const Home = (props: Props) => {
   };
 
   const columns: TableProps["columns"] = [
-    { dataField: "id", text: "Id" },
+    { dataField: "id", text: "Id", hidden: true },
     {
       dataField: "name",
       text: "Name",
@@ -122,6 +148,9 @@ const Home = (props: Props) => {
 
   const pageLimit = 10;
 
+  const canUndo = history.length > 0;
+  const canRedo = redoList.length > 0;
+
   return (
     <LoaderWrapper loading={loading}>
       <div className={classNames.container}>
@@ -133,6 +162,10 @@ const Home = (props: Props) => {
             onChangeSearchKeyword={(value) => setSearchKeyword(value)}
             onChangeTypeFilterKeyword={(value) => setTypeFilterKeyword(value)}
             onSearchOrFilter={handleSearchOrFilter}
+            canUndo={canUndo}
+            canRedo={canRedo}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
           />
         </div>
         <Table
@@ -143,14 +176,12 @@ const Home = (props: Props) => {
           onSort={handleSort}
         />
         <div className={classNames.pagination_wrapper}>
-          {apiList.length > 0 && (
-            <Pagination
-              currentPage={page}
-              pageLimit={pageLimit}
-              totalRecords={totalRecords}
-              onChangePage={handlePagination}
-            />
-          )}
+          <Pagination
+            currentPage={page}
+            pageLimit={pageLimit}
+            totalRecords={totalRecords}
+            onChangePage={handlePagination}
+          />
         </div>
       </div>
     </LoaderWrapper>

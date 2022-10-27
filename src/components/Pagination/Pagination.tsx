@@ -16,13 +16,13 @@ const Pagination = (props: Props) => {
     (totalRecords % pageLimit > 0 ? 1 : 0);
   return (
     <div className={classNames.pagination_row}>
-      <p className={classNames.pagination_text}>
+      {/* <p className={classNames.pagination_text}>
         Showing {pageLimit * (currentPage - 1) + 1}-
         {currentPage * pageLimit > totalRecords
           ? totalRecords
           : currentPage * pageLimit}{" "}
         out of {totalRecords}
-      </p>
+      </p> */}
       <div className={classNames.pagination_button_group}>
         {Array.from(Array(totalPageCount).keys())
           .slice(

@@ -26,16 +26,18 @@ const TBodyRow = (props: Props) => {
   return (
     <>
       <tr className="table-body-row" onClick={() => setExpanded(!expanded)}>
-        {props.columns.map(({ dataField, text, formatter }, index) => {
-          const cellData = props.rowData[dataField];
-          return (
-            <td key={index} title={cellData}>
-              {typeof formatter === "function"
-                ? formatter(props.rowData.id, dataField, text)
-                : cellData}
-            </td>
-          );
-        })}
+        {props.columns
+          .filter((thItem) => !thItem.hidden)
+          .map(({ dataField, text, formatter }, index) => {
+            const cellData = props.rowData[dataField];
+            return (
+              <td key={index} title={cellData}>
+                {typeof formatter === "function"
+                  ? formatter(props.rowData.id, dataField, text)
+                  : cellData}
+              </td>
+            );
+          })}
       </tr>
       {expanded && (
         <tr className="row-expanded">

@@ -52,6 +52,11 @@
   border: 1px solid var(--purple-2);
 }
 
+.button_wrapper {
+  padding-top: 25px;
+  display: flex;
+}
+
 .search_button {
   width: 100px;
   height: 32px;
@@ -63,5 +68,18 @@
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  margin-top: 25px;
+}
+
+.icon_button {
+  width: 32px;
+  height: 32px;
+  background: var(--gradient-1);
+  color: var(--white);
+  border-radius: var(--border-radius-5);
+  margin-left: 10px;
+}
+
+.icon_button:disabled {
+  opacity: 0.5;
+  cursor: auto;
 }

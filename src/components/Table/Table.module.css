@@ -1,14 +1,19 @@
 /* table */
 .table_container {
-  background-color: var(--white);
+  /* background-color: var(--white); */
   width: 100%;
-  border: 2px solid var(--gray-1);
-  border-collapse: collapse;
+  /* border: 2px solid var(--gray-1); */
+  /* border-collapse: collapse; */
+  border-collapse: separate;
+  border-spacing: 0 10px;
 }
 
-.table_container tr th,
-.table_container tr td {
+.table_container tr th {
   padding: 16px 16px 16px 0;
+}
+
+.table_container tr td {
+  padding: 5px 16px 5px 0;
 }
 
 .table_container tr th:first-child,

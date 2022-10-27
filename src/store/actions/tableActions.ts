@@ -12,17 +12,21 @@ export const fetchAPIList = createAsyncThunk(
       order,
       search,
       filters,
+      page,
+      limit,
     }: {
       sortBy?: string | undefined;
       order?: "asc" | "desc";
       search?: string | undefined;
       filters?: { [key: string]: string | undefined };
+      page?: number;
+      limit?: number;
     },
     { dispatch }
   ) => {
     try {
       const response = await axios.get(`${baseURL}/apis`, {
-        params: { ...filters, search, sortBy, order },
+        params: { ...filters, search, sortBy, order, page, limit },
       });
       return response.data;
     } catch (error) {

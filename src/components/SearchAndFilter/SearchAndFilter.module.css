@@ -8,6 +8,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
+  box-shadow: 0 2px 77px 31px rgb(106 38 249 / 4%);
 }
 
 .search_container {
@@ -28,7 +29,7 @@
   height: 32px;
   padding-left: 10px;
   border-radius: var(--border-radius-5);
-  border: 1px solid gray;
+  border: 1px solid var(--purple-2);
   overflow: hidden;
 }
 
@@ -48,12 +49,13 @@
   height: 32px;
   border-radius: var(--border-radius-5);
   padding: 0 5px;
+  border: 1px solid var(--purple-2);
 }
 
 .search_button {
   width: 100px;
   height: 32px;
-  background-color: var(--blue-0);
+  background: var(--gradient-1);
   color: var(--white);
   border-radius: var(--border-radius-5);
   font-weight: 600;

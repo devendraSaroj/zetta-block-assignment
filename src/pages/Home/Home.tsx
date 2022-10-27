@@ -11,6 +11,7 @@ import {
 } from "../../store/actions/tableActions";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import classNames from "./Home.module.css";
+import Pagination from "../../components/Pagination/Pagination";
 
 type Props = {};
 
@@ -18,9 +19,13 @@ const Home = (props: Props) => {
   const dispatch = useAppDispatch();
   const apiList = useAppSelector((state) => state.apis.data);
   const uniqueTypeList = useAppSelector((state) => state.apis.uniqueTypeList);
+  const totalRecords = useAppSelector((state) => state.apis.totalRecords);
 
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [typeFilterKeyword, setTypeFilterKeyword] = useState<string>("All");
   const [loading, setLoading] = useState<boolean>(false);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     (async () => {
@@ -38,7 +43,9 @@ const Home = (props: Props) => {
 
   const handleSort = async (dataField: string, order: "asc" | "desc") => {
     setLoading(true);
-    const response = await dispatch(fetchAPIList({ sortBy: dataField, order }));
+    const response = await dispatch(
+      fetchAPIList({ sortBy: dataField, order, page })
+    );
     setLoading(false);
     if (response.payload) setSortOrder(order);
   };
@@ -54,6 +61,7 @@ const Home = (props: Props) => {
         order: sortOrder,
         search: search,
         filters,
+        page,
       })
     );
     setLoading(false);
@@ -63,6 +71,21 @@ const Home = (props: Props) => {
     setLoading(true);
     const response = await dispatch(deleteApiEntry(id));
     setLoading(false);
+  };
+
+  const handlePagination = async (page: number) => {
+    setLoading(true);
+    const response = await dispatch(
+      fetchAPIList({
+        sortBy: "name",
+        order: sortOrder,
+        search: searchKeyword,
+        filters: { type: typeFilterKeyword },
+        page,
+      })
+    );
+    setLoading(false);
+    if (response.payload) setPage(page);
   };
 
   const handleActionFormatter = (id: string) => {
@@ -97,21 +120,38 @@ const Home = (props: Props) => {
     { dataField: "action", text: "Action", formatter: handleActionFormatter },
   ];
 
+  const pageLimit = 10;
+
   return (
     <LoaderWrapper loading={loading}>
       <div className={classNames.container}>
         <div className={classNames.search_and_filter_wrapper}>
           <SearchAndFilter
+            searchKeyword={searchKeyword}
+            typeFilterKeyword={typeFilterKeyword}
             uniqueTypeList={uniqueTypeList}
+            onChangeSearchKeyword={(value) => setSearchKeyword(value)}
+            onChangeTypeFilterKeyword={(value) => setTypeFilterKeyword(value)}
             onSearchOrFilter={handleSearchOrFilter}
           />
         </div>
         <Table
+          loading={loading}
           data={apiList}
           columns={columns}
           onUpdateDescription={handleUpdateDescription}
           onSort={handleSort}
         />
+        <div className={classNames.pagination_wrapper}>
+          {apiList.length > 0 && (
+            <Pagination
+              currentPage={page}
+              pageLimit={pageLimit}
+              totalRecords={totalRecords}
+              onChangePage={handlePagination}
+            />
+          )}
+        </div>
       </div>
     </LoaderWrapper>
   );

@@ -18,6 +18,11 @@ code {
     monospace;
 }
 
+button {
+  border: none;
+  cursor: pointer;
+}
+
 button:active {
   opacity: 0.8;
 }
@@ -28,14 +33,24 @@ button:active {
   --gray-2: rgb(124, 123, 123);
 
   --white: #ffffff;
-  --blue-0: #291bf0;
+  --blue-0: #2914f7;
+
   --red: #ff4f67;
+  --purple: rgb(171, 151, 247);
+  --purple-2: #962eff;
 
   --border-radius-5: 5px;
   --border-radius-8: 8px;
 
   --zindex-alert: 1090;
   --zindex-loader: 1050;
+
+  --gradient-1: radial-gradient(
+      189.29% 189.29% at 69.05% 0,
+      #962eff 0,
+      rgba(150, 46, 255, 0) 100%
+    ),
+    #2914f7;
 }
 
 html {

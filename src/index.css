@@ -23,4 +23,9 @@ code {
   --gray-1: rgb(200, 200, 200);
 
   --white: #ffffff;
+
+  --blue-0: #291bf0;
+
+  --zindex-alert: 1090;
+  --zindex-loader: 1050;
 }

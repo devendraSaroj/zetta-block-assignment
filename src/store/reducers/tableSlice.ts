@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TableRowType } from "../../components/Table/components/types";
-import { fetchAPIList } from "../actions/tableActions";
+import { fetchAPIList, updateApiDetail } from "../actions/tableActions";
 
 interface TableState {
   data: Array<TableRowType>;
@@ -16,8 +16,13 @@ const tableSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchAPIList.fulfilled, (state, action) => {
-      console.log({ action });
       state.data = action.payload;
+    });
+    builder.addCase(updateApiDetail.fulfilled, (state, action) => {
+      const index = state.data.findIndex(({ id }) => id === action.payload.id);
+      if (index >= 0) {
+        state.data[index] = action.payload;
+      }
     });
   },
 });

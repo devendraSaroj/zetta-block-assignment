@@ -1,7 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import LoaderWrapper from "../../components/LoaderWrapper/LoaderWrapper";
+import { TableRowType } from "../../components/Table/components/types";
 import Table, { TableProps } from "../../components/Table/Table";
 import { useAppDispatch, useAppSelector } from "../../hooks/store-hooks";
-import { fetchAPIList } from "../../store/actions/tableActions";
+import {
+  fetchAPIList,
+  updateApiDetail,
+} from "../../store/actions/tableActions";
 
 type Props = {};
 
@@ -9,15 +14,38 @@ const Home = (props: Props) => {
   const dispatch = useAppDispatch();
   const apiList = useAppSelector((state) => state.apis.data);
 
+  const [loading, setLoading] = useState<boolean>(false);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
   useEffect(() => {
     (async () => {
-      await dispatch(fetchAPIList());
+      setLoading(true);
+      await dispatch(fetchAPIList({ dataField: "name", order: "asc" }));
+      setLoading(false);
     })();
   }, []);
 
+  const handleUpdateDescription = async (updatedObject: TableRowType) => {
+    setLoading(true);
+    await dispatch(updateApiDetail(updatedObject));
+    setLoading(false);
+  };
+
+  const handleSort = async (dataField: string, order: "asc" | "desc") => {
+    setLoading(true);
+    const response = await dispatch(fetchAPIList({ dataField, order }));
+    setLoading(false);
+    if (response.payload) setSortOrder(order);
+  };
+
   const columns: TableProps["columns"] = [
     { dataField: "id", text: "Id" },
-    { dataField: "name", text: "Name", sort: true },
+    {
+      dataField: "name",
+      text: "Name",
+      sort: true,
+      order: sortOrder,
+    },
     { dataField: "type", text: "Type" },
     { dataField: "operationName", text: "Operation name" },
     { dataField: "createdAt", text: "Created at" },
@@ -25,9 +53,14 @@ const Home = (props: Props) => {
   ];
 
   return (
-    <div>
-      <Table data={apiList} columns={columns} />
-    </div>
+    <LoaderWrapper loading={loading}>
+      <Table
+        data={apiList}
+        columns={columns}
+        onUpdateDescription={handleUpdateDescription}
+        onSort={handleSort}
+      />
+    </LoaderWrapper>
   );
 };
 

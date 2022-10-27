@@ -7,8 +7,9 @@ export type TableHeaderProps = {
     dataField: string;
     text: string;
     sort?: boolean;
-    ascending?: boolean;
+    order?: "asc" | "desc";
   }>;
+  onSort?: (dataField: string, order: "asc" | "desc") => void;
 };
 
 const THeader = (props: TableHeaderProps) => {
@@ -18,11 +19,21 @@ const THeader = (props: TableHeaderProps) => {
         <th key={index}>
           {thItem.text}
           {thItem.sort && (
-            <div>
-              <img
-                src={arrowIcon}
-                className={thItem.ascending ? "asc" : "desc"}
-              />
+            <div
+              onClick={() =>
+                typeof props.onSort === "function"
+                  ? props.onSort(
+                      thItem.dataField,
+                      ["asc", "desc"].includes(thItem.order || "")
+                        ? thItem.order === "asc"
+                          ? "desc"
+                          : "asc"
+                        : "desc"
+                    )
+                  : undefined
+              }
+            >
+              <img src={arrowIcon} className={thItem.order ?? "asc"} />
             </div>
           )}
         </th>

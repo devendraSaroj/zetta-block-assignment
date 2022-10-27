@@ -18,9 +18,54 @@ code {
     monospace;
 }
 
+button {
+  border: none;
+  cursor: pointer;
+}
+
+button:active {
+  opacity: 0.8;
+}
+
 :root {
   --gray-0: #f5f5f5;
   --gray-1: rgb(200, 200, 200);
+  --gray-2: rgb(124, 123, 123);
 
   --white: #ffffff;
+  --blue-0: #2914f7;
+
+  --red: #ff4f67;
+  --purple: rgb(171, 151, 247);
+  --purple-2: #962eff;
+
+  --border-radius-5: 5px;
+  --border-radius-8: 8px;
+
+  --zindex-alert: 1090;
+  --zindex-loader: 1050;
+
+  --gradient-1: radial-gradient(
+      189.29% 189.29% at 69.05% 0,
+      #962eff 0,
+      rgba(150, 46, 255, 0) 100%
+    ),
+    #2914f7;
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--gray-0);
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }

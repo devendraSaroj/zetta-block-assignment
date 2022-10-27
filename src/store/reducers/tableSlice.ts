@@ -3,11 +3,11 @@ import { TableRowType } from "../../components/Table/components/types";
 import { fetchAPIList, updateApiDetail } from "../actions/tableActions";
 
 interface TableState {
-  data: { [key: string]: TableRowType };
+  data: Array<TableRowType>;
 }
 
 const initialState: TableState = {
-  data: {},
+  data: [],
 };
 
 const tableSlice = createSlice({
@@ -16,19 +16,13 @@ const tableSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchAPIList.fulfilled, (state, action) => {
-      // store data in a object, so that accessing an element should
-      // take O(1) time.
-      state.data = action.payload.reduce(
-        (acc: TableState["data"], obj: TableRowType) => {
-          acc[obj.id] = obj;
-          return acc;
-        },
-        {}
-      );
+      state.data = action.payload;
     });
     builder.addCase(updateApiDetail.fulfilled, (state, action) => {
-      const id = action.payload.id;
-      state.data[id] = action.payload;
+      const index = state.data.findIndex(({ id }) => id === action.payload.id);
+      if (index >= 0) {
+        state.data[index] = action.payload;
+      }
     });
   },
 });

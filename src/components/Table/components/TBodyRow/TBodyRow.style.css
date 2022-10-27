@@ -1,3 +1,76 @@
 .table-body-row {
-  border: 1px solid var(--gray-1);
+  border-top: 1px solid var(--gray-1);
+  cursor: pointer;
+  background-color: var(--white);
+  box-shadow: 0px 0px 0px 1px var(--purple);
+}
+
+.table-body-row:hover {
+  background-color: rgb(234, 223, 250);
+}
+
+.row-expanded {
+  border-top: none;
+  background-color: rgb(234, 223, 250);
+}
+
+.expanded_property_row {
+  display: flex;
+}
+
+.expanded_property_row:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.expanded_property_row .row_title {
+  font-weight: 600;
+  margin-right: 2rem;
+  width: 10%;
+  min-width: 150px;
+}
+
+.description_container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  background-color: var(--white);
+}
+
+.expanded_property_row textarea {
+  resize: none;
+  border: none;
+  padding: 5px;
+  outline: none;
+}
+
+.description_container textarea {
+  display: flex;
+  flex: 1;
+  height: 32px;
+}
+
+.description_container button {
+  width: 90px;
+  height: 32px;
+  background-color: var(--blue-0);
+  color: var(--white);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}
+
+.row_query {
+  white-space: pre-wrap;
+  height: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex: 1;
+  background-color: white;
+  padding: 5px;
+}
+
+.row_query[data-content="true"] {
+  height: 200px;
 }

@@ -5,9 +5,12 @@ import { TableRowType } from "../../components/Table/components/types";
 import Table, { TableProps } from "../../components/Table/Table";
 import { useAppDispatch, useAppSelector } from "../../hooks/store-hooks";
 import {
+  deleteApiEntry,
   fetchAPIList,
   updateApiDetail,
 } from "../../store/actions/tableActions";
+import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
+import classNames from "./Home.module.css";
 
 type Props = {};
 
@@ -56,6 +59,29 @@ const Home = (props: Props) => {
     setLoading(false);
   };
 
+  const handleDeleteRow = async (id: string) => {
+    setLoading(true);
+    const response = await dispatch(deleteApiEntry(id));
+    setLoading(false);
+  };
+
+  const handleActionFormatter = (id: string) => {
+    return (
+      <div className={classNames.action_container}>
+        <button
+          className={classNames.delete_button}
+          type="button"
+          onClick={(event) => {
+            handleDeleteRow(id);
+            event.stopPropagation();
+          }}
+        >
+          <DeleteIcon stroke="var(--white)" />
+        </button>
+      </div>
+    );
+  };
+
   const columns: TableProps["columns"] = [
     { dataField: "id", text: "Id" },
     {
@@ -68,15 +94,18 @@ const Home = (props: Props) => {
     { dataField: "operationName", text: "Operation name" },
     { dataField: "createdAt", text: "Created at" },
     { dataField: "updatedAt", text: "Updated at" },
+    { dataField: "action", text: "Action", formatter: handleActionFormatter },
   ];
 
   return (
     <LoaderWrapper loading={loading}>
-      <div style={{ padding: "0 1rem" }}>
-        <SearchAndFilter
-          uniqueTypeList={uniqueTypeList}
-          onSearchOrFilter={handleSearchOrFilter}
-        />
+      <div className={classNames.container}>
+        <div className={classNames.search_and_filter_wrapper}>
+          <SearchAndFilter
+            uniqueTypeList={uniqueTypeList}
+            onSearchOrFilter={handleSearchOrFilter}
+          />
+        </div>
         <Table
           data={apiList}
           columns={columns}

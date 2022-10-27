@@ -1,5 +1,9 @@
 .table-header-row {
   width: 100%;
+  position: sticky;
+  top: 122px;
+  background-color: var(--white);
+  box-shadow: 0px 0px 0px 2px var(--gray-1);
 }
 
 .table-header-row th {

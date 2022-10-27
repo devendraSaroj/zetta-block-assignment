@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import TBodyRow from "./components/TBodyRow/TBodyRow";
 import THeadRow from "./components/THeadRow/THeadRow";
 import { TableRowType } from "./components/types";
@@ -14,6 +14,7 @@ export type TableProps = {
      * defines current sorting order of the column
      */
     order?: "asc" | "desc";
+    formatter?: (id: string, dataField: string, text: string) => ReactElement;
   }>;
   onUpdateDescription: (updatedObject: TableRowType) => void;
   onSort?: (dataField: string, order: "asc" | "desc") => void;

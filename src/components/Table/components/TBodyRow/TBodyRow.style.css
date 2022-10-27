@@ -55,10 +55,6 @@
   cursor: pointer;
 }
 
-.description_container button:active {
-  opacity: 0.8;
-}
-
 .row_query {
   white-space: pre-wrap;
   height: 20px;

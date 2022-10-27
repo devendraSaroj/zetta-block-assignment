@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import classNames from "./SearchAndFilter.module.css";
 import { ReactComponent as SearchIcon } from "../../assets/search.svg";
+import { ReactComponent as UndoIcon } from "../../assets/undo.svg";
+import { ReactComponent as RedoIcon } from "../../assets/redo.svg";
 
 type Props = {
   uniqueTypeList: string[];
@@ -12,6 +14,10 @@ type Props = {
     search: string | undefined,
     filter: { [key: string]: string | undefined }
   ) => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
 };
 
 const SearchAndFilter = (props: Props) => {
@@ -45,8 +51,7 @@ const SearchAndFilter = (props: Props) => {
           ))}
         </select>
       </div>
-      <div>
-        <p> </p>
+      <div className={classNames.button_wrapper}>
         <button
           className={classNames.search_button}
           type="button"
@@ -61,6 +66,24 @@ const SearchAndFilter = (props: Props) => {
           }
         >
           Search
+        </button>
+        <button
+          type="button"
+          title="undo delete"
+          className={classNames.icon_button}
+          disabled={!props.canUndo}
+          onClick={props.onUndo}
+        >
+          <UndoIcon fill="var(--white)" />
+        </button>
+        <button
+          title="redo delete"
+          type="button"
+          className={classNames.icon_button}
+          disabled={!props.canRedo}
+          onClick={props.onRedo}
+        >
+          <RedoIcon fill="var(--white)" />
         </button>
       </div>
     </div>

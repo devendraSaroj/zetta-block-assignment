@@ -10,6 +10,7 @@ export type TableProps = {
     dataField: string;
     text: string;
     sort?: boolean;
+    hidden?: boolean;
     /**
      * defines current sorting order of the column
      */

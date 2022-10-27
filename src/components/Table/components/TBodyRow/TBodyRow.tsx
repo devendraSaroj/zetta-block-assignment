@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./TBodyRow.style.css";
 import { TableRowType } from "../types";
+import { TableProps } from "../../Table";
 
 type Props = {
-  columns: Array<{ dataField: string }>;
+  columns: TableProps["columns"];
   rowData: TableRowType;
   onUpdateDescription: (updatedObject: TableRowType) => void;
 };
@@ -25,11 +26,13 @@ const TBodyRow = (props: Props) => {
   return (
     <>
       <tr className="table-body-row" onClick={() => setExpanded(!expanded)}>
-        {props.columns.map(({ dataField }, index) => {
+        {props.columns.map(({ dataField, text, formatter }, index) => {
           const cellData = props.rowData[dataField];
           return (
             <td key={index} title={cellData}>
-              {cellData}
+              {typeof formatter === "function"
+                ? formatter(props.rowData.id, dataField, text)
+                : cellData}
             </td>
           );
         })}

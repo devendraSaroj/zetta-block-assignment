@@ -2,7 +2,6 @@
 .search_and_filter_container {
   width: 100%;
   background-color: var(--white);
-  margin: 1rem 0;
   padding: 1rem;
   border-radius: var(--border-radius-8);
   display: flex;

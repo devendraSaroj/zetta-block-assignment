@@ -1,15 +1,25 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { store } from "./store";
 import Home from "./pages/Home/Home";
 import "./App.css";
+import { useAppDispatch, useAppSelector } from "./hooks/store-hooks";
+import Toast from "./Toast/Toast";
+import { customAlert } from "./store/reducers/tableSlice";
 
 function App() {
+  const alert = useAppSelector((state) => state.apis.alert);
+  const dispatch = useAppDispatch();
+
   return (
     <div className="App">
-      <Provider store={store}>
-        <Home />
-      </Provider>
+      <Home />
+      {alert.isVisible && (
+        <Toast
+          message={alert.message}
+          onRequestClose={() =>
+            dispatch(customAlert({ isVisible: false, message: "" }))
+          }
+        />
+      )}
     </div>
   );
 }

@@ -4,6 +4,10 @@ import { ReactComponent as SearchIcon } from "../../assets/search.svg";
 
 type Props = {
   uniqueTypeList: string[];
+  searchKeyword: string;
+  typeFilterKeyword: string;
+  onChangeSearchKeyword: (updatedValue: string) => void;
+  onChangeTypeFilterKeyword: (updatedValue: string) => void;
   onSearchOrFilter: (
     search: string | undefined,
     filter: { [key: string]: string | undefined }
@@ -11,10 +15,7 @@ type Props = {
 };
 
 const SearchAndFilter = (props: Props) => {
-  const [searchKeyword, setSearchKeyword] = useState<string>("");
-  const [typeFilterKeyword, setTypeFilterKeyword] = useState<string>("All");
-  const [operationNameFilterKeyword, setOperationNameFilterKeyword] =
-    useState<string>("All");
+  const { searchKeyword, typeFilterKeyword } = props;
   return (
     <div className={classNames.search_and_filter_container}>
       <div className={classNames.search_container}>
@@ -24,7 +25,9 @@ const SearchAndFilter = (props: Props) => {
           <input
             placeholder="Search for name, type, operation-name etc."
             value={searchKeyword}
-            onChange={(event) => setSearchKeyword(event.target.value)}
+            onChange={(event) =>
+              props.onChangeSearchKeyword(event.target.value)
+            }
           />
         </div>
       </div>
@@ -32,7 +35,9 @@ const SearchAndFilter = (props: Props) => {
         <p className={classNames.tool_title}>Type</p>
         <select
           name="Type"
-          onChange={(event) => setTypeFilterKeyword(event.target.value)}
+          onChange={(event) =>
+            props.onChangeTypeFilterKeyword(event.target.value)
+          }
         >
           <option>All</option>
           {props.uniqueTypeList.map((type: any, index) => (
@@ -40,20 +45,6 @@ const SearchAndFilter = (props: Props) => {
           ))}
         </select>
       </div>
-      {/* <div className={classNames.dropdown}>
-        <p className={classNames.tool_title}>Operation Name</p>
-        <select
-          name="Operation Name"
-          onChange={(event) =>
-            setOperationNameFilterKeyword(event.target.value)
-          }
-        >
-          <option>All</option>
-          {uniqueOperationNameList.map((type: any, index) => (
-            <option key={index}>{type}</option>
-          ))}
-        </select>
-      </div> */}
       <div>
         <p> </p>
         <button
@@ -65,10 +56,6 @@ const SearchAndFilter = (props: Props) => {
               {
                 type:
                   typeFilterKeyword === "All" ? undefined : typeFilterKeyword,
-                // operationName:
-                //   operationNameFilterKeyword === "All"
-                //     ? undefined
-                //     : operationNameFilterKeyword,
               }
             )
           }

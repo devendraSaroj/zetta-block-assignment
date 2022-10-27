@@ -16,6 +16,7 @@ export type TableProps = {
     order?: "asc" | "desc";
     formatter?: (id: string, dataField: string, text: string) => ReactElement;
   }>;
+  loading: boolean;
   onUpdateDescription: (updatedObject: TableRowType) => void;
   onSort?: (dataField: string, order: "asc" | "desc") => void;
 };
@@ -45,7 +46,7 @@ const Table = (props: TableProps) => {
           ))}
         </tbody>
       </table>
-      {props.data.length <= 0 && (
+      {props.data.length <= 0 && !props.loading && (
         <div className={classNames.empty_message}>
           <p>Oops! couldn't find anything.</p>
           <p>You might wanna reset the search/filter keywords.</p>

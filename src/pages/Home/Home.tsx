@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LoaderWrapper from "../../components/LoaderWrapper/LoaderWrapper";
+import SearchAndFilter from "../../components/SearchAndFilter/SearchAndFilter";
 import { TableRowType } from "../../components/Table/components/types";
 import Table, { TableProps } from "../../components/Table/Table";
 import { useAppDispatch, useAppSelector } from "../../hooks/store-hooks";
@@ -13,6 +14,7 @@ type Props = {};
 const Home = (props: Props) => {
   const dispatch = useAppDispatch();
   const apiList = useAppSelector((state) => state.apis.data);
+  const uniqueTypeList = useAppSelector((state) => state.apis.uniqueTypeList);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -20,7 +22,7 @@ const Home = (props: Props) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      await dispatch(fetchAPIList({ dataField: "name", order: "asc" }));
+      await dispatch(fetchAPIList({ sortBy: "name", order: "asc" }));
       setLoading(false);
     })();
   }, []);
@@ -33,9 +35,25 @@ const Home = (props: Props) => {
 
   const handleSort = async (dataField: string, order: "asc" | "desc") => {
     setLoading(true);
-    const response = await dispatch(fetchAPIList({ dataField, order }));
+    const response = await dispatch(fetchAPIList({ sortBy: dataField, order }));
     setLoading(false);
     if (response.payload) setSortOrder(order);
+  };
+
+  const handleSearchOrFilter = async (
+    search: string | undefined,
+    filters: { [key: string]: string | undefined }
+  ) => {
+    setLoading(true);
+    const response = await dispatch(
+      fetchAPIList({
+        sortBy: "name",
+        order: sortOrder,
+        search: search,
+        filters,
+      })
+    );
+    setLoading(false);
   };
 
   const columns: TableProps["columns"] = [
@@ -54,12 +72,18 @@ const Home = (props: Props) => {
 
   return (
     <LoaderWrapper loading={loading}>
-      <Table
-        data={apiList}
-        columns={columns}
-        onUpdateDescription={handleUpdateDescription}
-        onSort={handleSort}
-      />
+      <div style={{ padding: "0 1rem" }}>
+        <SearchAndFilter
+          uniqueTypeList={uniqueTypeList}
+          onSearchOrFilter={handleSearchOrFilter}
+        />
+        <Table
+          data={apiList}
+          columns={columns}
+          onUpdateDescription={handleUpdateDescription}
+          onSort={handleSort}
+        />
+      </div>
     </LoaderWrapper>
   );
 };

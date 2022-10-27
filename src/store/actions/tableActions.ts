@@ -5,14 +5,24 @@ import { baseURL } from "../../configs/secrets";
 
 export const fetchAPIList = createAsyncThunk(
   "api/list/fetch",
-  async (args: { dataField: string; order: "asc" | "desc" }) => {
+  async ({
+    sortBy,
+    order,
+    search,
+    filters,
+  }: {
+    sortBy?: string | undefined;
+    order?: "asc" | "desc";
+    search?: string | undefined;
+    filters?: { [key: string]: string | undefined };
+  }) => {
     try {
-      const response = await axios.get(
-        `${baseURL}/apis?sortBy=${args.dataField}&order=${args.order}`
-      );
+      const response = await axios.get(`${baseURL}/apis`, {
+        params: { ...filters, search, sortBy, order },
+      });
       return response.data;
     } catch (error) {
-      alert("error");
+      alert("Couldn't fetch data. Please try again");
     }
   }
 );
